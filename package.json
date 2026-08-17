@@ -1,0 +1,16 @@
+{
+  "name": "@skillforge/worker",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "run": "tsx src/run-skill.ts"
+  },
+  "dependencies": {
+    "playwright": "latest",
+    "tsx": "latest"
+  },
+  "devDependencies": {
+    "typescript": "latest"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "id": "demo-google-search",
+  "name": "Google Search",
+  "description": "Search Google using a reusable query.",
+  "version": "0.1",
+  "allowedDomains": ["www.google.com"],
+  "inputs": [
+    { "name": "query", "label": "Search query", "type": "string", "defaultValue": "gyms in Dallas", "required": true }
+  ],
+  "steps": [
+    { "action": "navigate", "url": "https://www.google.com" },
+    { "action": "fill", "selector": "textarea[name='q'], input[name='q']", "value": "{{query}}", "description": "Enter search query" },
+    { "action": "press", "selector": "textarea[name='q'], input[name='q']", "key": "Enter", "description": "Run search" }
+  ],
+  "createdAt": "2026-08-16T22:14:00-05:00"
+}

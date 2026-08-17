@@ -1,0 +1,8 @@
+{
+  "version": "0.1",
+  "events": [
+    { "id": "1", "timestamp": 1, "action": "navigate", "url": "https://www.google.com" },
+    { "id": "2", "timestamp": 2, "action": "input", "url": "https://www.google.com", "selector": "textarea[name='q']", "value": "gyms in Dallas", "name": "q", "ariaLabel": "Search" },
+    { "id": "3", "timestamp": 3, "action": "click", "url": "https://www.google.com", "selector": "input[name='btnK']", "text": "Google Search" }
+  ]
+}
