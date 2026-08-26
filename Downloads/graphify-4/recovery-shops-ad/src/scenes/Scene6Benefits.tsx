@@ -6,6 +6,7 @@ import {
   useCurrentFrame,
 } from "remotion";
 import { body, colors, heading } from "../theme";
+import { PhotoBg } from "../visuals/PhotoBg";
 
 // 29–36s :: Members using recovery, upgrade notification, retention graph rises.
 const benefits = [
@@ -40,6 +41,7 @@ export const Scene6Benefits: React.FC = () => {
 
   return (
     <AbsoluteFill name="Scene6-Benefits" style={{ backgroundColor: colors.bg, overflow: "hidden" }}>
+      <PhotoBg src="sauna3.jpg" dim={0.68} zoom={0.14} tint={colors.green} pan="down" />
       <AbsoluteFill style={{ background: "radial-gradient(circle at 50% 30%, rgba(84,227,142,0.10), transparent 60%)" }} />
 
       {/* retention graph */}

@@ -1,18 +1,19 @@
 import {
   AbsoluteFill,
   Easing,
+  Img,
   Interactive,
   interpolate,
+  staticFile,
   useCurrentFrame,
 } from "remotion";
 import { body, colors, heading } from "../theme";
-import { PlungeIll, SaunaIll, SteamIll } from "../visuals/Illustrations";
 
 // 3–8s :: Member walks out -> quick cuts to sauna, cold plunge, recovery studio.
 const cuts = [
-  { label: "SAUNAS", tint: colors.warm, Ill: SaunaIll, glow: "radial-gradient(circle at 50% 40%, rgba(255,138,61,0.35), transparent 60%)" },
-  { label: "COLD PLUNGES", tint: colors.cold, Ill: PlungeIll, glow: "radial-gradient(circle at 50% 40%, rgba(94,231,255,0.32), transparent 60%)" },
-  { label: "RECOVERY CLUBS", tint: colors.green, Ill: SteamIll, glow: "radial-gradient(circle at 50% 40%, rgba(84,227,142,0.28), transparent 60%)" },
+  { label: "SAUNAS", tint: colors.warm, photo: "sauna1.jpg" },
+  { label: "COLD PLUNGES", tint: colors.cold, photo: "plunge1.jpg" },
+  { label: "RECOVERY CLUBS", tint: colors.green, photo: "spa1.jpg" },
 ];
 
 export const Scene2Leaving: React.FC = () => {
@@ -92,27 +93,31 @@ export const Scene2Leaving: React.FC = () => {
               background: colors.bgAlt,
             }}
           >
-            <AbsoluteFill style={{ background: c.glow }} />
-            <AbsoluteFill style={{ justifyContent: "center", alignItems: "center", gap: 40 }}>
-              <c.Ill
-                glow={40}
-                style={{
-                  width: 620,
-                  height: 620,
-                  scale: interpolate(local, [0, 12], [0.8, 1], { extrapolateRight: "clamp", easing: Easing.out(Easing.cubic), output: "perceptual-scale" }),
-                }}
-              />
+            {/* full-bleed photo with punch-in */}
+            <Img
+              src={staticFile(`photos/${c.photo}`)}
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+                scale: interpolate(local, [0, cutLen], [1.12, 1.22], { extrapolateRight: "clamp" }),
+              }}
+            />
+            <AbsoluteFill style={{ background: "linear-gradient(180deg, rgba(6,9,14,0.35), rgba(6,9,14,0.1) 45%, rgba(6,9,14,0.9))" }} />
+            <AbsoluteFill style={{ background: `radial-gradient(circle at 50% 80%, ${c.tint}33, transparent 55%)` }} />
+            <AbsoluteFill style={{ justifyContent: "flex-end", alignItems: "center", paddingBottom: 260 }}>
               <div
                 style={{
                   fontFamily: heading,
                   fontWeight: 700,
-                  fontSize: 132,
+                  fontSize: 138,
                   color: c.tint,
                   textTransform: "uppercase",
                   letterSpacing: 2,
                   translate: `0px ${interpolate(local, [0, 8], [40, 0], { extrapolateRight: "clamp", easing: Easing.out(Easing.cubic) })}px`,
                   textAlign: "center",
                   padding: "0 60px",
+                  textShadow: "0 4px 30px rgba(0,0,0,0.8)",
                 }}
               >
                 {c.label}

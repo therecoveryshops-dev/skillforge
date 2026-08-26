@@ -1,18 +1,19 @@
 import {
   AbsoluteFill,
   Easing,
+  Img,
   Interactive,
   interpolate,
+  staticFile,
   useCurrentFrame,
 } from "remotion";
 import { body, colors, heading } from "../theme";
-import { PlungeIll, SaunaIll, SteamIll } from "../visuals/Illustrations";
 
 // 36–41s :: ENGAGEMENT INTERRUPT. Three doors.
 const doors = [
-  { label: "SAUNA", Ill: SaunaIll, tint: colors.warm },
-  { label: "COLD PLUNGE", Ill: PlungeIll, tint: colors.cold },
-  { label: "COMPLETE ROOM", Ill: SteamIll, tint: colors.green },
+  { label: "SAUNA", photo: "sauna1.jpg", tint: colors.warm },
+  { label: "COLD PLUNGE", photo: "plunge2.jpg", tint: colors.cold },
+  { label: "COMPLETE ROOM", photo: "spa1.jpg", tint: colors.green },
 ];
 
 export const Scene7Doors: React.FC = () => {
@@ -60,34 +61,45 @@ export const Scene7Doors: React.FC = () => {
                   width: 300,
                   height: 640,
                   borderRadius: "18px 18px 8px 8px",
-                  background: "linear-gradient(180deg,#141f28,#0b141b)",
-                  border: `3px solid ${d.tint}`,
-                  boxShadow: `0 0 55px ${d.tint}44`,
+                  border: `4px solid ${d.tint}`,
+                  boxShadow: `0 0 55px ${d.tint}55`,
                   translate: `0px ${rise}px`,
                   opacity: interpolate(local, [0, 10], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" }),
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  padding: "50px 20px",
+                  overflow: "hidden",
+                  position: "relative",
                 }}
               >
-                <d.Ill glow={20} style={{ width: 200, height: 200 }} />
+                {/* photo behind door */}
+                <Img
+                  src={staticFile(`photos/${d.photo}`)}
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                    scale: interpolate(local, [0, 30], [1.15, 1.25], { extrapolateLeft: "clamp", extrapolateRight: "clamp" }),
+                  }}
+                />
+                <AbsoluteFill style={{ background: `linear-gradient(180deg, ${d.tint}22, rgba(6,9,14,0.2) 40%, rgba(6,9,14,0.9))` }} />
                 <div
                   style={{
+                    position: "absolute",
+                    bottom: 40,
+                    left: 0,
+                    right: 0,
                     fontFamily: heading,
                     fontWeight: 700,
-                    fontSize: 58,
+                    fontSize: 56,
                     color: d.tint,
                     textTransform: "uppercase",
                     textAlign: "center",
                     lineHeight: 1,
+                    textShadow: "0 3px 20px rgba(0,0,0,0.9)",
                   }}
                 >
                   {d.label}
                 </div>
                 {/* door handle */}
-                <div style={{ position: "absolute", right: 26, top: "50%", width: 16, height: 60, borderRadius: 8, background: d.tint, opacity: 0.8 }} />
+                <div style={{ position: "absolute", right: 22, top: "50%", width: 14, height: 60, borderRadius: 8, background: d.tint, boxShadow: `0 0 12px ${d.tint}`, opacity: 0.9 }} />
               </div>
             );
           })}

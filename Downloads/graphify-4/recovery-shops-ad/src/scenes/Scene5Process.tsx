@@ -1,12 +1,13 @@
 import {
   AbsoluteFill,
   Easing,
+  Img,
   Interactive,
   interpolate,
+  staticFile,
   useCurrentFrame,
 } from "remotion";
 import { body, colors, heading } from "../theme";
-import { PlungeIll, SaunaIll } from "../visuals/Illustrations";
 
 // 22–29s :: Empty room -> finished branded recovery suite.
 const steps = ["DESIGN", "EQUIPMENT", "DELIVERY", "INSTALLATION"];
@@ -37,26 +38,48 @@ export const Scene5Process: React.FC = () => {
           borderTop: `2px solid rgba(94,231,255,${0.2 + build * 0.6})`,
         }}
       />
-      {/* amenities appear in the built room as progress ramps */}
-      {[
-        { Ill: SaunaIll, l: 90, b: 130, s: 300 },
-        { Ill: PlungeIll, l: 620, b: 150, s: 340 },
-      ].map((f, i) => (
+      {/* finished recovery suite photo reveals as the build completes */}
+      <div
+        style={{
+          position: "absolute",
+          bottom: 90,
+          left: 90,
+          right: 90,
+          height: 560,
+          borderRadius: 24,
+          overflow: "hidden",
+          border: `3px solid rgba(94,231,255,${0.3 + build * 0.5})`,
+          boxShadow: `0 20px 60px rgba(0,0,0,0.6), 0 0 ${build * 60}px rgba(94,231,255,0.3)`,
+          opacity: interpolate(build, [0.4, 0.8], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" }),
+          translate: `0px ${interpolate(build, [0.4, 0.85], [80, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp", easing: Easing.out(Easing.cubic) })}px`,
+        }}
+      >
+        <Img
+          src={staticFile("photos/spa1.jpg")}
+          style={{
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            scale: interpolate(build, [0.4, 1], [1.05, 1.15], { extrapolateLeft: "clamp", extrapolateRight: "clamp" }),
+          }}
+        />
+        <AbsoluteFill style={{ background: "linear-gradient(180deg, transparent 55%, rgba(6,9,14,0.8))" }} />
         <div
-          key={i}
           style={{
             position: "absolute",
-            left: f.l,
-            bottom: f.b,
-            width: f.s,
-            height: f.s,
-            opacity: interpolate(build, [0.45 + i * 0.2, 0.75 + i * 0.2], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" }),
-            translate: `0px ${interpolate(build, [0.45 + i * 0.2, 0.75 + i * 0.2], [60, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp", easing: Easing.out(Easing.cubic) })}px`,
+            bottom: 24,
+            left: 30,
+            fontFamily: body,
+            fontWeight: 800,
+            fontSize: 34,
+            letterSpacing: 3,
+            color: colors.cold,
+            opacity: interpolate(build, [0.7, 0.95], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" }),
           }}
         >
-          <f.Ill glow={build * 30} style={{ width: "100%", height: "100%" }} />
+          ✓ READY FOR MEMBERS
         </div>
-      ))}
+      </div>
 
       <Interactive.Div
         name="ProcessTitle"

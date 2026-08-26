@@ -6,7 +6,7 @@ import {
   useCurrentFrame,
 } from "remotion";
 import { body, colors, heading } from "../theme";
-import { PlungeIll, SaunaIll } from "../visuals/Illustrations";
+import { PhotoBg } from "../visuals/PhotoBg";
 
 // 41–45s :: CTA. Logo over a luxury gym recovery room.
 export const Scene8CTA: React.FC = () => {
@@ -22,20 +22,9 @@ export const Scene8CTA: React.FC = () => {
 
   return (
     <AbsoluteFill name="Scene8-CTA" style={{ backgroundColor: colors.bg, overflow: "hidden" }}>
-      {/* luxury recovery room ambience */}
+      {/* luxury recovery room photo backdrop */}
+      <PhotoBg src="sauna1.jpg" dim={0.72} zoom={0.1} tint={colors.cold} pan="up" />
       <AbsoluteFill style={{ background: "radial-gradient(circle at 50% 35%, rgba(94,231,255,0.18), transparent 55%)" }} />
-      <AbsoluteFill style={{ background: "radial-gradient(circle at 50% 90%, rgba(255,138,61,0.14), transparent 55%)" }} />
-      <div
-        style={{
-          position: "absolute",
-          bottom: 0,
-          left: 0,
-          right: 0,
-          height: 520,
-          background: "linear-gradient(180deg, rgba(20,30,40,0.5), rgba(8,12,18,1))",
-          borderTop: "2px solid rgba(94,231,255,0.4)",
-        }}
-      />
 
       <AbsoluteFill style={{ justifyContent: "center", alignItems: "center", padding: 80 }}>
         {/* free plan kicker */}
@@ -65,10 +54,6 @@ export const Scene8CTA: React.FC = () => {
             opacity: interpolate(frame, [0, 12], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" }),
           }}
         >
-          <div style={{ display: "flex", gap: 10, marginBottom: 10 }}>
-            <PlungeIll glow={24} style={{ width: 160, height: 160 }} />
-            <SaunaIll glow={24} style={{ width: 160, height: 160 }} />
-          </div>
           <div
             style={{
               fontFamily: heading,

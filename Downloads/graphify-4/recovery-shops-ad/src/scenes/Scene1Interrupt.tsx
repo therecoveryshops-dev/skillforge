@@ -1,13 +1,13 @@
 import {
   AbsoluteFill,
   Easing,
+  Img,
   Interactive,
   interpolate,
-  random,
+  staticFile,
   useCurrentFrame,
 } from "remotion";
 import { body, colors, heading } from "../theme";
-import { DumbbellIll } from "../visuals/Illustrations";
 
 // 0–3s :: PATTERN INTERRUPT
 // Crowded gym freezes, red warning flashes, headline slams in.
@@ -24,43 +24,48 @@ export const Scene1Interrupt: React.FC = () => {
 
   return (
     <AbsoluteFill name="Scene1-Interrupt" style={{ backgroundColor: colors.bg, overflow: "hidden" }}>
-      {/* faux crowded-gym: rows of moving equipment silhouettes */}
+      {/* real crowded gym — live, then freezes on the interrupt */}
       <AbsoluteFill
         style={{
           translate: `${drift}px 0px`,
-          filter: frame >= freeze ? "grayscale(0.8) brightness(0.55)" : "none",
+          filter: frame >= freeze ? "grayscale(0.85) brightness(0.5) contrast(1.1)" : "brightness(0.9)",
         }}
       >
-        {new Array(7).fill(0).map((_, row) =>
-          new Array(4).fill(0).map((_, col) => {
-            const i = row * 4 + col;
-            const speed = 0.4 + random(`s${i}`) * 0.9;
-            const cycle = frame < freeze ? Math.sin(frame / (14 / speed) + i) : Math.sin(freeze / (14 / speed) + i);
-            const isGym = i % 3 === 0;
-            return (
-              <div
-                key={i}
-                style={{
-                  position: "absolute",
-                  left: 60 + col * 250,
-                  top: 120 + row * 250,
-                  width: 150,
-                  height: 150 + cycle * 40,
-                  borderRadius: 22,
-                  background: "#12202B",
-                  border: "2px solid #1B3140",
-                  opacity: 0.9,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                {isGym && <DumbbellIll style={{ width: 110, height: 110, opacity: 0.5 }} />}
-              </div>
-            );
-          })
-        )}
+        <Img
+          src={staticFile("photos/gym1.jpg")}
+          style={{
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            scale: frame < freeze ? interpolate(frame, [0, freeze], [1.04, 1.1]) : 1.1,
+          }}
+        />
       </AbsoluteFill>
+      {/* darken for text */}
+      <AbsoluteFill style={{ background: "linear-gradient(180deg, rgba(6,9,14,0.5), rgba(6,9,14,0.2) 40%, rgba(6,9,14,0.85))" }} />
+
+      {/* FREEZE stamp */}
+      {frame >= freeze && (
+        <div
+          style={{
+            position: "absolute",
+            top: 250,
+            right: 70,
+            fontFamily: body,
+            fontWeight: 900,
+            fontSize: 30,
+            letterSpacing: 4,
+            color: colors.danger,
+            border: `2px solid ${colors.danger}`,
+            padding: "8px 16px",
+            borderRadius: 6,
+            rotate: "6deg",
+            opacity: interpolate(frame, [freeze, freeze + 4], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" }),
+          }}
+        >
+          ❚❚ FREEZE
+        </div>
+      )}
 
       {/* red warning overlay */}
       <AbsoluteFill style={{ backgroundColor: colors.danger, opacity: flashOpacity, mixBlendMode: "screen" }} />
